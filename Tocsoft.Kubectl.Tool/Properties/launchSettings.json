@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "Tocsoft.Kubectl.Tool": {
+      "commandName": "Project",
+      "commandLineArgs": "cluster-info"
+    }
+  }
+}

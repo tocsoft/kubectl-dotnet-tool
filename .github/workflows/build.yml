@@ -1,0 +1,36 @@
+name: Build
+
+on:
+  schedule:
+    # * is a special character in YAML so you have to quote this string
+    - cron:  '0 16 * * *' # every day at 16:00 hours
+  workflow_dispatch:
+    inputs:
+      packageversion :
+        required: false
+        default: ''
+      targetversion :
+        required: false
+        default: 'latest'
+
+jobs:
+
+  build:
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+
+      - name: Publish
+        if: (steps.vars.outputs.IS_DEPLOYED == 'False') 
+        shell: pwsh
+        run:  .\build\publish.ps1 -ApiKey "${{ secrets.NUGET_API_KEY }}" -Version "${{ github.event.inputs.targetversion}}" -PackageVersion "${{packageversion}}"
+
+      - name: Upload Build Artifacts
+        uses: actions/upload-artifact@v2
+        with:
+          name: dotnet-tool-pacakge
+          path: .\Tocsoft.Kubectl.Tool\nupkg\*.nupkg
+          retention-days: 1
