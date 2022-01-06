@@ -26,7 +26,7 @@ jobs:
       - name: Publish
         if: (steps.vars.outputs.IS_DEPLOYED == 'False') 
         shell: pwsh
-        run:  .\build\publish.ps1 -ApiKey "${{ secrets.NUGET_API_KEY }}" -Version "${{ github.event.inputs.targetversion}}" -PackageVersion "${{packageversion}}"
+        run:  .\build\publish.ps1 -ApiKey "${{ secrets.NUGET_API_KEY }}" -Version "${{ github.event.inputs.targetversion}}" -PackageVersion "${{ github.event.inputs.packageversion}}"
 
       - name: Upload Build Artifacts
         uses: actions/upload-artifact@v2
